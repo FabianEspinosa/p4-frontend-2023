@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { MovieAPI } from '../../typings'
-import MovieCard from "./MovieCard";
 import '../assets/movies.scss';
-import NoMovies from "./NoMovies";
+import MoviesCategory from "./MoviesCategory";
 import requests from '../../utils/requests';
 
 export default function Movies() {
-    const [movies, setMovies] = useState<MovieAPI[] | null>(null);
+    const [moviesNetflix, setMoviesNetflix] = useState<MovieAPI[] | null>(null);
+    const [moviesTrendingNow, setMoviesTrendingNow] = useState<MovieAPI[] | null>(null);
+    const [moviesTopRated, setMoviesTopRated] = useState<MovieAPI[] | null>(null);
+    const [moviesActionMovies, setMoviesActionMovies] = useState<MovieAPI[] | null>(null);
+    const [moviesComedyMovies, setMoviesComedyMovies] = useState<MovieAPI[] | null>(null);
+    const [moviesHorrorMovies, setMoviesHorrorMovies] = useState<MovieAPI[] | null>(null);
+    const [moviesRomanceMovies, setMoviesRomanceMovies] = useState<MovieAPI[] | null>(null);
+    const [moviesDocumentaries, setMoviesDocumentaries] = useState<MovieAPI[] | null>(null);
 
     useEffect(() => {
         getMovies();
@@ -32,39 +38,26 @@ export default function Movies() {
             fetch(requests.fetchRomanceMovies).then((res) => res.json()),
             fetch(requests.fetchDocumentaries).then((res) => res.json())
         ])
-        setMovies(netflixOriginals.results)
-        return {
-            props: {
-                netflixOriginals: netflixOriginals.results,
-                trendingNow: trendingNow.results,
-                topRated: topRated.results,
-                actionMovies: actionMovies.results,
-                comedyMovies: comedyMovies.results,
-                horrorMovies: horrorMovies.results,
-                romanceMovies: romanceMovies.results,
-                documentaries: documentaries.results
-            }
-        }
+        setMoviesNetflix(netflixOriginals.results)
+        setMoviesTrendingNow(trendingNow.results)
+        setMoviesTopRated(topRated.results)
+        setMoviesActionMovies(actionMovies.results)
+        setMoviesComedyMovies(comedyMovies.results)
+        setMoviesHorrorMovies(horrorMovies.results)
+        setMoviesRomanceMovies(romanceMovies.results)
+        setMoviesDocumentaries(documentaries.results)
     };
 
     return (
         <div className="movies">
-            <div className="movies-options">
-            </div>
-            <div className="movies-container">
-                {movies ? (
-                    Object.keys(movies).length !== 0 ? (
-                        movies.map((movie) => (
-                            <MovieCard key={movie.id} movie={movie} />
-                        ))
-                    ) : (
-                        <NoMovies></NoMovies>
-                    )
-
-                ) : (
-                    <NoMovies></NoMovies>
-                )}
-            </div>
+            <MoviesCategory movies={moviesNetflix} categoryTitle="Netflix Originals"></MoviesCategory>
+            <MoviesCategory movies={moviesTrendingNow} categoryTitle="Trending Now"></MoviesCategory>
+            <MoviesCategory movies={moviesTopRated} categoryTitle="Top Rated"></MoviesCategory>
+            <MoviesCategory movies={moviesActionMovies} categoryTitle="Action Movies"></MoviesCategory>
+            <MoviesCategory movies={moviesComedyMovies} categoryTitle="Comedy Movies"></MoviesCategory>
+            <MoviesCategory movies={moviesHorrorMovies} categoryTitle="Horror Movies"></MoviesCategory>
+            <MoviesCategory movies={moviesRomanceMovies} categoryTitle="Romance Movies"></MoviesCategory>
+            <MoviesCategory movies={moviesDocumentaries} categoryTitle="Documentaries"></MoviesCategory>
         </div>
     );
 }
