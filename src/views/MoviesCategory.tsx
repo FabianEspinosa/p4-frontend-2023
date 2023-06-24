@@ -1,5 +1,6 @@
 import { MovieAPI } from '../../typings'
 import MoviesContainer from "./MoviesContainer";
+import TitleStytle from './TitleStytle';
 
 interface props {
     movies: MovieAPI[] | null,
@@ -9,12 +10,12 @@ interface props {
 
 function MoviesCategory({ movies, categoryTitle }: props) {
     return (
-        <div>   <h1 style={{ color: "white" }}>
-             {categoryTitle}
-        </h1>
+        <>
+            <TitleStytle titleText={categoryTitle}></TitleStytle>
             <div className="movies-container">
                 <MoviesContainer movies={movies}></MoviesContainer>
-            </div></div>
+            </div>
+        </>
     )
 }
 

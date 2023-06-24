@@ -1,0 +1,18 @@
+.text-title {
+  white-space: nowrap;
+  filter: url(#filter);
+  outline: none;
+  color: #ff8b06f8;
+  font: 9vw/1 Arial Black, sans-serif;
+  text-align: center;
+
+  &::selection {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
